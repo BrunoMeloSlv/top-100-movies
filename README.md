@@ -1,7 +1,7 @@
 # Uma Análise de Correspondência dos Top 100 movies IMDb
 Análise de Correspondência Aplicada aos dados do IMDb
 
-#Os filmes com maior arrecadação são os mais bem avaliados?
+# Os filmes com maior arrecadação são os mais bem avaliados?
 
 Resumo: A  paixão mundial e a importância da indústria, seja para o mercado financeiro ou população, fica evidente a necessidade de estudos quanto a esse mercado e tentar encontrar insights. Deste modo, esse estudo está concentrado em tirar algumas conclusões em volta dessa indústria bilionária chamada de cinema. O estudo pretende verificar se os filmes com maior arrecadação são os que detém as melhores notas visto que são os que mais atraem público. O objetivo é entender a relação das variáveis do dataset trabalhado, nele contém os 100 maiores filmes que obtiveram uma maior nota em avaliação da população no site da IMDb, os filmes estão entre os anos de 1932 e 2015, esses dados foram retirados do site Kaggle e foram disponibilizados de forma pública. Utilizando do método chamado de análise de correspondência ou ANACOR, junto ao software R-Studio para realizar os cálculos necessários. O método consiste em verificar a relação entre as variáveis, no estudo será utilizado a arrecadação do filme, número de votos e a nota média do filme dentro do site. Utilizando dos percentis para que as variáveis numéricas tornem-se categóricas, visto que a ANACOR é um estudo para esse tipo de variável. Dessa forma foi possível verificar através da estatística aplicada que temos evidências para acreditar que quanto maior a arrecadação maior é o número de votos e maior é a nota do filme quando comparado ao número de votantes.
 
@@ -12,7 +12,7 @@ Abstract: The worldwide passion and importance of the industry, whether for the 
 Keywords: Data collect. Data science. Data analysis. Correspondence analysis. Applied statistics.
 
  
-##Introdução
+## Introdução
 A indústria de entretenimento é um dos que mais crescem dentro do mercado mundial, corro o risco de errar afirmando que é o maior opioide da população que necessita de uma distração para manter o discernimento necessário para o cotidiano e esse fato demonstra um possível motivo desse crescimento.
 Dentre os assuntos abordados pelos estudos do lazer, a história deste fenômeno está certamente entre as mais negligenciadas. Além do número reduzido de trabalhos sobre o assunto, há também uma certa precariedade empírica nos resultados apresentados. (DIAS, 2018)
 Entre o entretenimento temos as mais diversas opções, segundo o Cambridge Dictionary o entretenimento engloba entre outros, shows, filmes e televisão. Ainda poderíamos adicionar os esportes como um dos fatores que abrangem esse arcabouço. Neste artigo em questão vamos abordar sobre os filmes e o mercado dele como um todo.
@@ -24,7 +24,7 @@ Após longa crise que se estendeu por praticamente toda a década de 1980, a Emb
 Ainda segundo Autran, Esta situação perdurou até 1993, quando já no governo Itamar Franco foi aprovada a Lei do Audiovisual, instrumento que bem ou mal permitiu o início do reaquecimento da produção de longas-metragens, a qual em alguns anos voltou a um patamar significativo em termos numéricos.
 Percebemos a evolução do cinema brasileiro e podemos citar filmes que fizeram sucesso dentro e fora do Brasil como Central do Brasil, Tropa de Elite e Cidade de Deus. Esse último aliás foi considerado o filme mais visto em uma pesquisa do site americano Internet Movie Database - IMDb e é importante citar que também foi indicado a quatro Oscar.
 
-##Material e Métodos
+## Material e Métodos
 Os dados foram retirados Kaggle que é uma subsidiária da Google LLC, é uma comunidade on-line de cientistas de dados e profissionais de aprendizado de máquina (WIKIPEDIA, 2022). Lá você pode fazer o download de alguns bancos de dados e até competir por soluções em que os donos do banco de dados premiam em dinheiro a melhor solução para o caso dela.Esse dataset em questão foi feito upload pelo usuário Mrityunjay Pathak, ele fez um web scraping através do python e disponibilizou esses dados de forma pública.
 Nesse banco de dados contém os 100 filmes mais bem avaliados na plataforma IMDb de 1931 a 2015, dentre as variáveis existem os index, nome, ano de lançamento, categoria, tempo, gênero, nota, números de votantes e valor arrecadado.
 O objetivo é fazer uma análise de correspondência simples entre a variável votos e as notas, também chamada de ANACOR, ela se utiliza de variáveis categóricas em tabelas de contingência, analisando a correspondência das matrizes.
@@ -42,7 +42,7 @@ Podemos observar claramente que as menores notas ficaram mais próximas dos meno
 Então podemos teorizar que as pessoas que mais gostam dos filmes são as que mais vão até a plataforma votar e consequentemente os filmes que atraem um menor público acabam por sofrer as consequências de um número de votos menor e podemos comprovar através dos dados que quanto maior a arrecadação maior é o número de votantes como pode ser visto na imagem abaixo.
 Se quisermos tirar o tira-teima quanto a arrecadação e a nota, podemos rodar o script para a tabela de contingência entre as variáveis em questão e assim identificar se existe uma correspondência direta entre elas. Como podemos observar abaixo, aceitamos H0, logo a arrecadação não tem correspondência estatisticamente falando com a média da nota dos filmes.
 
-##Conclusão
+## Conclusão
 O que podemos perceber com o estudo é que quanto maior a arrecadação que em geral significa levar mais pessoas a assistir e podemos considerar isso sinônimo de sucesso, os filmes que atingem uma maior arrecadação levam mais pessoas a votarem no site e por consequência pessoas que gostaram do filme dando a ele uma nota mais alta e poderíamos concluir que quanto maior o número de votos maior o sucesso de um filme.
 Entretanto, percebemos que uma maior arrecadação não significa dizer que esse filme tem uma nota maior, visto que rejeitamos essa alternativa na tabela de contingência. Logo podemos concluir que quanto maior o número de espectadores maior é o número de votantes, mas que não temos como provar estatisticamente que o filme terá uma nota maior ou menor devido ao sucesso de bilheteria.
 
