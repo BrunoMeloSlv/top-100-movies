@@ -1,0 +1,147 @@
+---
+output:
+  word_document: default
+  html_document: default
+---
+```{r Instalando os Pacotes}
+pacotes <- c("plotly",
+             "readr",
+             "dplyr",
+             "tidyr",
+             "ggplot2",
+             "tidyverse", 
+             "ggrepel",
+             "knitr", "kableExtra", 
+             "sjPlot", 
+             "FactoMineR", 
+             "amap", 
+             "ade4",
+             "readxl")
+
+if(sum(as.numeric(!pacotes %in% installed.packages())) != 0){
+  instalador <- pacotes[!pacotes %in% installed.packages()]
+  for(i in 1:length(instalador)) {
+    install.packages(instalador, dependencies = T)
+    break()}
+  sapply(pacotes, require, character = T) 
+} else {
+  sapply(pacotes, require, character = T) 
+}
+
+```
+
+```{r Importando Dados}
+movies = read_csv("movies.csv")
+```
+
+```{r Limpando a base}
+movies$run_time = str_replace_all (movies$run_time, "min", "") #retirando os "min"
+movies$gross_total = str_replace_all (movies$gross_total,"M","")  #retirando o "M" após o valor
+movies$gross_total = str_replace_all(movies$gross_total, "[$-]","")
+movies$year_of_release = str_replace_all (movies$year_of_release,"[(-]","")
+movies$year_of_release = str_replace_all (movies$year_of_release,"[)-]","")
+
+movies$run_time = as.numeric(as.character(movies$run_time))
+movies$gross_total = as.numeric(as.character(movies$gross_total))
+movies$year_of_release = as.numeric(as.character(movies$year_of_release))
+
+movies[is.na(movies$gross_total),]$gross_total = mean(movies$gross_total,na.rm = T)
+
+movie_cor = movies[,c(5,7,8,9)]
+colunas = c("tempo_de_filme","notas","votos","arrecadacao_total")
+
+colnames(movie_cor) = colunas
+#View(movies)
+```
+
+###Análise de Correspondência
+````{r Ajustando a base para utilização}
+movies <- movies %>% 
+  mutate(notas = case_when(imdb_rating <= quantile(imdb_rating, 0.25, na.rm = T) ~ "menores_notas",
+                                 imdb_rating > quantile(imdb_rating, 0.25, na.rm = T) & imdb_rating <= quantile(imdb_rating, 0.75, na.rm = T) ~ "notas_medias",
+                                 imdb_rating > quantile(imdb_rating, 0.75, na.rm = T) ~ "maiores_notas"))
+
+
+movies <- movies %>% 
+  mutate(votos = case_when(votes <= quantile(votes, 0.25, na.rm = T) ~ "menores_votos",
+                                 votes > quantile(votes, 0.25, na.rm = T) & votes <= quantile(votes, 0.75, na.rm = T) ~ "votos_medios",
+                                 votes > quantile(votes, 0.75, na.rm = T) ~ "maiores_votos"))
+
+movies <- movies %>% 
+  mutate(arrecadacao = case_when(gross_total <= quantile(gross_total, 0.25, na.rm = T) ~ "menores_votos",
+                                 gross_total > quantile(gross_total, 0.25, na.rm = T) & gross_total <= quantile(gross_total, 0.75, na.rm = T) ~ "votos_medios",
+                                 gross_total > quantile(gross_total, 0.75, na.rm = T) ~ "maiores_votos"))
+
+
+#View(movies)
+````
+
+````{r Tabela de contingência}
+
+
+movie <- movies %>% 
+  select(notas, arrecadacao)
+
+sjt.xtab(var.row = movie$notas,
+         var.col = movie$arrecadacao,
+         show.exp = TRUE,
+         show.row.prc = TRUE,
+         show.col.prc = TRUE, 
+         encoding = "UTF-8")
+
+
+movie$votos = as.factor(movie$votos)
+movie$arrecadacao = as.factor(movie$arrecadacao)
+````
+
+```{r Estatística qui-quadrado e teste}
+# Vamos gerar a ACM
+ACM <- dudi.acm(movie, scannf = FALSE)
+
+# Analisando as variâncias de cada dimensão
+perc_variancia <- (ACM$eig / sum(ACM$eig)) * 100
+paste0(round(perc_variancia,2),"%")
+
+# Quantidade de categorias por variável
+quant_categorias <- apply(movie,
+                          MARGIN =  2,
+                          FUN = function(x) nlevels(as.factor(x)))
+
+# Consolidando as coordenadas-padrão obtidas por meio da matriz binária
+df_ACM <- data.frame(ACM$c1, Variável = rep(names(quant_categorias),
+                                            quant_categorias))
+
+```
+
+```{r Plotando o mapa perceptual por meio da matriz de binária}
+df_ACM %>%
+  rownames_to_column() %>%
+  rename(Categoria = 1) %>%
+  ggplot(aes(x = CS1, y = CS2, label = Categoria, color = Variável)) +
+  geom_point() +
+  geom_label_repel() +
+  geom_vline(aes(xintercept = 0), linetype = "longdash", color = "grey48") +
+  geom_hline(aes(yintercept = 0), linetype = "longdash", color = "grey48") +
+  labs(x = paste("Dimensão 1:", paste0(round(perc_variancia[1], 2), "%")),
+       y = paste("Dimensão 2:", paste0(round(perc_variancia[2], 2), "%"))) +
+  theme_bw()
+```
+```{r Consolidando as coordenadas-padrão obtidas por meio da matriz de Burt}
+
+df_ACM_B <- data.frame(ACM$co, Variável = rep(names(quant_categorias),
+                                              quant_categorias))
+```
+
+```{r Plotando o mapa perceptual por meio da matriz de Burt}
+df_ACM_B %>%
+  rownames_to_column() %>%
+  rename(Categoria = 1) %>%
+  ggplot(aes(x = Comp1, y = Comp2, label = Categoria, color = Variável)) +
+  geom_point() +
+  geom_label_repel() +
+  geom_vline(aes(xintercept = 0), linetype = "longdash", color = "grey48") +
+  geom_hline(aes(yintercept = 0), linetype = "longdash", color = "grey48") +
+  labs(x = paste("Dimensão 1:", paste0(round(perc_variancia[1], 2), "%")),
+       y = paste("Dimensão 2:", paste0(round(perc_variancia[2], 2), "%"))) +
+  theme_bw()
+```
