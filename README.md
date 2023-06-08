@@ -25,15 +25,24 @@ Ainda segundo Autran, Esta situação perdurou até 1993, quando já no governo 
 Percebemos a evolução do cinema brasileiro e podemos citar filmes que fizeram sucesso dentro e fora do Brasil como Central do Brasil, Tropa de Elite e Cidade de Deus. Esse último aliás foi considerado o filme mais visto em uma pesquisa do site americano Internet Movie Database - IMDb e é importante citar que também foi indicado a quatro Oscar.
 
 ## Material e Métodos
-Os dados foram retirados Kaggle que é uma subsidiária da Google LLC, é uma comunidade on-line de cientistas de dados e profissionais de aprendizado de máquina (WIKIPEDIA, 2022). Lá você pode fazer o download de alguns bancos de dados e até competir por soluções em que os donos do banco de dados premiam em dinheiro a melhor solução para o caso dela.Esse dataset em questão foi feito upload pelo usuário Mrityunjay Pathak, ele fez um web scraping através do python e disponibilizou esses dados de forma pública.
+Os dados foram retirados Kaggle, uma subsidiária da Google LLC,  comunidade on-line de cientistas de dados e profissionais de aprendizado de máquina (WIKIPEDIA, 2022). Lá você pode fazer o download de alguns bancos de dados e até competir por soluções em que os donos do banco de dados premiam em dinheiro a melhor solução para o caso. Esse dataset em questão foi feito upload pelo usuário Mrityunjay Pathak, ele fez um web scraping através do python e disponibilizou esses dados de forma pública.
 Nesse banco de dados contém os 100 filmes mais bem avaliados na plataforma IMDb de 1931 a 2015, dentre as variáveis existem os index, nome, ano de lançamento, categoria, tempo, gênero, nota, números de votantes e valor arrecadado.
-O objetivo é fazer uma análise de correspondência simples entre a variável votos e as notas, também chamada de ANACOR, ela se utiliza de variáveis categóricas em tabelas de contingência, analisando a correspondência das matrizes.
-Assim, são construídos gráficos com os componentes principais das linhas e das colunas permitindo a visualização da relação entre os conjuntos, onde a proximidade dos pontos referentes à linha e a coluna indicam associação e o distanciamento, uma repulsão (PSICOMETRIAONLINE, 2023).
-Existem dois tipos de análise de correspondência a simples (AC), que iremos usar, ela é para duas variáveis categóricas e a múltipla (ACM) que será realizada quando o dataset tiver mais de duas variáveis.
-Para esse experimento iremos utilizar o software estatístico R Studio, que agora faz parte da posit, ele é famoso no meio estatístico e principalmente com avanço da ciência de dados. É uma ferramenta open source que irá nos auxiliar com a análise dos dados.
-A análise de correspondência é relativamente complexa, mas tentarei explicar da melhor forma possível para que seja compreendido de uma forma mais simples diante desse estudo. Para iniciar faremos uma limpeza na base que vem com algumas sujeiras que podem vir a atrapalhar nossa análise.
-Uma outra mudança que precisa fazer é a alteração do tipo de variável, a análise de correspondência é para variáveis categórica e estamos comparando o número de votos com a nota média dos votantes. Isso significa que estamos falando de uma base numérica e para realizar essa alteração faremos uma divisão percentual.
-Ambas as variáveis serão divididas em 3 categorias, menores_notas/menores_votos que irá conter os menores 25% dos valores, depois teremos notas_medias/votos_medios que conterá as os valores maiores que os 25% e menor que 75% geral, a última serão as 25% maiores notas, para facilitar observe a tabela abaixo. 
+O objetivo é fazer uma análise de correspondência simples entre a variável votos e as notas, também chamada de ANACOR, é uma técnica de análise com duas variáveis, ela estuda a associação entre suas categorias e a intensidade dessa associação a partir de uma tabela de dados cruzados também conhecida como tabela de contigência ou tabela de correspondência. Pode ser expressada pela seguinte formula:
+N= ∑_(i=1)^I▒∑_(j=1)^J▒n_ij 
+
+Para a confirmação da existência de associação entre as duas variáveis categóricas e entre as susa categorias é utilizado o teste qui-quadrado e a análise dos residuos. Sendo assim para dado número de graus de liberdade e determinado nível de significância, caso o valor da estatística qui-quadrado for maior que seu valor crítico, pode-se afirmar que existe associação estatisticamente significante entre duas variáveis categóricas. O cálculo realizado para conseguir essa conclusão é:
+x^2=∑_(i=1)^I▒∑_(j=1)^J▒[n_ij-((∑▒c_j  ∑▒l_i )/N)]^2/(((∑▒c_j  ∑▒l_i )/N) ),com (I-1)(J-1)graus de liberdade
+Com as alternativas:
+
+H_0:As duas variáveis categóricas se associam de forma aleatória
+H_1:A associação entre as duas variáveis categóricas não se dá de forma aleatória
+
+Após são construídos gráficos com os componentes principais das linhas e das colunas permitindo a visualização da relação entre os conjuntos, onde a proximidade dos pontos referentes à linha e a coluna indicam associação e o distanciamento, uma repulsão (PSICOMETRIAONLINE, 2023).
+Para esse experimento será utilizado o software estatístico R Studio, que agora faz parte da posit, ele é famoso no meio estatístico e principalmente com avanço da ciência de dados. É uma ferramenta open source que irá = auxiliar com a análise dos dados.
+A análise de correspondência é relativamente complexa, mas será explicada da melhor forma possível para que seja compreendido de uma forma mais simples diante do estudo. Para iniciar far-se-á uma limpeza na base que vem com algumas sujeiras que podem vir a atrapalhar a análise.
+Uma outra mudança que precisa ser feita é a alteração do tipo de variável, a análise de correspondência é para variáveis categórica e as variáveis utilizadas aqui são numéricas, bem como o número de votos com a nota média dos votantes. Para esse estudo e com o objetivo de testar se a análise de correspodência teria um bom resultado dentro dessa base, será realizado uma alteração fazendo uma divisão percentual.
+Ambas as variáveis serão divididas em 3 categorias, menores_notas/menores_votos que irá conter os menores 25% dos valores, depois as notas_medias/votos_medios que conterá as os valores maiores que os 25% e menor que 75% geral, a última serão as 25% maiores notas, para facilitar observe a tabela abaixo.
+
 
 ![image](https://user-images.githubusercontent.com/91537585/224507792-4161ff27-0ecf-428e-a159-293368a976d1.png)
          
