@@ -28,10 +28,13 @@ Percebemos a evolução do cinema brasileiro e podemos citar filmes que fizeram 
 Os dados foram retirados Kaggle, uma subsidiária da Google LLC,  comunidade on-line de cientistas de dados e profissionais de aprendizado de máquina (WIKIPEDIA, 2022). Lá você pode fazer o download de alguns bancos de dados e até competir por soluções em que os donos do banco de dados premiam em dinheiro a melhor solução para o caso. Esse dataset em questão foi feito upload pelo usuário Mrityunjay Pathak, ele fez um web scraping através do python e disponibilizou esses dados de forma pública.
 Nesse banco de dados contém os 100 filmes mais bem avaliados na plataforma IMDb de 1931 a 2015, dentre as variáveis existem os index, nome, ano de lançamento, categoria, tempo, gênero, nota, números de votantes e valor arrecadado.
 O objetivo é fazer uma análise de correspondência simples entre a variável votos e as notas, também chamada de ANACOR, é uma técnica de análise com duas variáveis, ela estuda a associação entre suas categorias e a intensidade dessa associação a partir de uma tabela de dados cruzados também conhecida como tabela de contigência ou tabela de correspondência. Pode ser expressada pela seguinte formula:
-N= ∑_(i=1)^I▒∑_(j=1)^J▒n_ij 
+
+![image](https://github.com/BrunoMeloSlv/top-100-movies/assets/91537585/d1a3cc8c-7f65-4ee6-bc6f-6bcd42836fad)
 
 Para a confirmação da existência de associação entre as duas variáveis categóricas e entre as susa categorias é utilizado o teste qui-quadrado e a análise dos residuos. Sendo assim para dado número de graus de liberdade e determinado nível de significância, caso o valor da estatística qui-quadrado for maior que seu valor crítico, pode-se afirmar que existe associação estatisticamente significante entre duas variáveis categóricas. O cálculo realizado para conseguir essa conclusão é:
-x^2=∑_(i=1)^I▒∑_(j=1)^J▒[n_ij-((∑▒c_j  ∑▒l_i )/N)]^2/(((∑▒c_j  ∑▒l_i )/N) ),com (I-1)(J-1)graus de liberdade
+
+![image](https://github.com/BrunoMeloSlv/top-100-movies/assets/91537585/8fc8e2ac-d043-4a4a-b4e4-afd050fd893e)
+
 Com as alternativas:
 
 H_0:As duas variáveis categóricas se associam de forma aleatória
@@ -43,38 +46,48 @@ A análise de correspondência é relativamente complexa, mas será explicada da
 Uma outra mudança que precisa ser feita é a alteração do tipo de variável, a análise de correspondência é para variáveis categórica e as variáveis utilizadas aqui são numéricas, bem como o número de votos com a nota média dos votantes. Para esse estudo e com o objetivo de testar se a análise de correspodência teria um bom resultado dentro dessa base, será realizado uma alteração fazendo uma divisão percentual.
 Ambas as variáveis serão divididas em 3 categorias, menores_notas/menores_votos que irá conter os menores 25% dos valores, depois as notas_medias/votos_medios que conterá as os valores maiores que os 25% e menor que 75% geral, a última serão as 25% maiores notas, para facilitar observe a tabela abaixo.
 
-
 ![image](https://user-images.githubusercontent.com/91537585/224507792-4161ff27-0ecf-428e-a159-293368a976d1.png)
          
-Feito as alterações necessárias para iniciar, significa que podemos partir para a tabela de contingência que tem a responsabilidade de demonstrar alguns itens de suma importância para a sequência da nossa análise. Ela irá demonstrar a importância da categoria para o modelo, o peso de cada linha ou coluna para dimensão e a importância da dimensão para o modelo. Além do teste qui-quadrado e o p-valor que indicará se faz sentido continuarmos até plotarmos os dados ou não.
+## Material e Métodos
+
+Feito as alterações necessárias para iniciar, significa que pode partir para a tabela de contingência que tem o objetivo de demonstrar alguns itens de suma importância para a sequência da análise. Ela irá demonstrar a importância da categoria para o modelo, o peso de cada linha ou coluna para dimensão e a importância da dimensão para o modelo. Além do teste qui-quadrado e o p-valor que indicará se faz sentido continuar o experiment até plotar os dados ou não.
 
 Tabela 2 – Tabela de contigência Notas x Votos
 
 ![image](https://user-images.githubusercontent.com/91537585/224507819-dcc8f875-2046-4cb6-bdab-1973adb102b8.png)
          
-O primeiro valor da tabela(em preto) são os valores observados e o segundo são os valores esperados, as porcentagem corresponde aos percentuais por linha e coluna respectivamente. As estatísticas que temos que analisar melhor é o p-valor que foi menor 0,05 e isso demonstra que podemos continuar o nosso trabalho visto que estamos no cenário “ideal”. A segunda estatística a observar é a Cramer’s V que retornou 0,445. Segundo (Acastat, 2023) o grau de associação pode ser mensurado através da tabela.
-Logo nossos dados têm uma associação de nível médio e detém uma qualificação para continuarmos os estudos e podemos plotar os dados para verificarmos de forma mais contundente como funciona essa relação entre as variáveis estudadas.
+O primeiro valor da tabela(em preto) são os valores observados e o segundo são os valores esperados, as porcentagem corresponde aos percentuais por linha e coluna respectivamente. As estatísticas que deve ser analisada melhor é o p-valor que foi menor 0,05 e isso demonstra que pode continuar o experimento visto que é o cenário “ideal”. A segunda estatística a observar é a Cramer’s V que retornou 0,445. Segundo (Acastat, 2023) o grau de associação pode ser mensurado através da tabela.
+Outra estátistica que deve ser observada é a qui-quadrada com o valor crítico de 5% resulta no valor tabelado de 9,488, enquanto que o valor calculado foi de 39,261, logo, se o valor calculado é maior que o valor crítico rejeita-se a hipotese nula e aceita a hipotese alteranativa. Então não há evidências para rejeitar a hipotese alternativa e a associação entre as duas variáveis categóricas não se dá de forma aleatória.
+Logo nossos dados têm uma associação de nível médio e detém uma qualificação para continuar os estudos e os dados podem ser plotados para verificar de forma mais contundente como funciona essa relação entre as variáveis estudadas.
+
 Imagem 1 – Mapa Perceptual Notas x Votos
 
 ![image](https://user-images.githubusercontent.com/91537585/224507829-def772f0-c1b7-40cc-ba87-63d2d6c6c775.png)
 
-Podemos observar claramente que as menores notas ficaram mais próximas dos menos votados, as notas médias dos que tiveram uma votação média e por último os mais votados próximo das maiores notas.
-É um resultado interessante visto que quanto maior o número de votantes esperamos uma variabilidade maior e consequentemente uma nota mais ao meio, mas também estatisticamente falando esperamos uma distribuição mais próxima da normal quanto maior o número de votos.
-Então podemos teorizar que as pessoas que mais gostam dos filmes são as que mais vão até a plataforma votar e consequentemente os filmes que atraem um menor público acabam por sofrer as consequências de um número de votos menor e podemos comprovar através dos dados que quanto maior a arrecadação maior é o número de votantes como pode ser visto na imagem abaixo.
+Pode ser observado no gráfico acima que as menores notas ficaram mais próximas dos menos votados, as notas médias dos que tiveram uma votação média e por último os mais votados próximo das maiores notas.
+É um resultado interessante visto que quanto maior o número de votantes esperamos uma variabilidade maior e consequentemente uma nota mais ao meio, mas também estatisticamente falando espera-se uma distribuição mais próxima da normal quanto maior o número de votos.
+Então pode ser teorizar que as pessoas que mais gostam dos filmes são as que mais vão até a plataforma votar e consequentemente os filmes que atraem um menor público acabam por sofrer as consequências de um número de votos menor e podemos comprovar através dos dados que quanto maior a arrecadação maior é o número de votantes como pode ser visto na imagem abaixo.
 
 Imagem 2 – Mapa Perceptual Arrecadação x Votos
 
 ![image](https://user-images.githubusercontent.com/91537585/224507846-46f3905c-9132-4000-aaeb-868e8055fd58.png)
 
-Se quisermos tirar o tira-teima quanto a arrecadação e a nota, podemos rodar o script para a tabela de contingência entre as variáveis em questão e assim identificar se existe uma correspondência direta entre elas. Como podemos observar abaixo, aceitamos H0, logo a arrecadação não tem correspondência estatisticamente falando com a média da nota dos filmes.
+Para validar o gráfico pode ser avaliado as estatisticas dentro da tabela de contigência entre essas duas variáveis e como pode ser observado abaixo as estatisticas determiner a rejeição da hipotese nula e aceitação da alternativa que indica que os dados não tem uma associação aleatória, ou seja, exite uma relação mesmo que baixa entre as variavéis.
 
-Tabela 3 – Tabela de contigência Arrecadação x Notas
+![image](https://github.com/BrunoMeloSlv/top-100-movies/assets/91537585/6c3d552a-2a98-4b1e-af80-72d733f4cc1e)
 
-![image](https://user-images.githubusercontent.com/91537585/224507854-61b66c77-9c6f-48af-a0ac-189a7437d457.png)
+Se quiser tirar o tira-teima quanto a arrecadação e a nota, podemos rodar o script para a tabela de contingência entre as variáveis em questão e assim identificar se existe uma correspondência direta entre elas. Como pode ser observado na tabela a seguir, aceita-se H0 devido ao teste qui-quadrado em que o valor calculado é menor do que o critico, logo a arrecadação não tem correspondência estatisticamente falando com a média da nota dos filmes.
+
+![image](https://github.com/BrunoMeloSlv/top-100-movies/assets/91537585/11b7facc-4bc1-446b-bc28-689a38296cee)
+
 
 ## Conclusão
-O que podemos perceber com o estudo é que quanto maior a arrecadação que em geral significa levar mais pessoas a assistir e podemos considerar isso sinônimo de sucesso, os filmes que atingem uma maior arrecadação levam mais pessoas a votarem no site e por consequência pessoas que gostaram do filme dando a ele uma nota mais alta e poderíamos concluir que quanto maior o número de votos maior o sucesso de um filme.
-Entretanto, percebemos que uma maior arrecadação não significa dizer que esse filme tem uma nota maior, visto que rejeitamos essa alternativa na tabela de contingência. Logo podemos concluir que quanto maior o número de espectadores maior é o número de votantes, mas que não temos como provar estatisticamente que o filme terá uma nota maior ou menor devido ao sucesso de bilheteria.
+O estudo por se tartar de váriaveis númericas existiam “n” possibilidades com modelos supervisionados e não supervisionados, mas tentando pensar for a da caixa e até por uma questão de estudo foi utilizado a ANACOR simples e por esse fato pode ser levantado vários questionamentos do melhor modelo.
+Nesse estudo, ceteris paribus, o que pode ser observado é que as notas tem associação com o número de votos
+quanto maior as notas também é maior o número de votantes e assim podendo supor que quanto mais pessoas assistem e gostam mais elas vão votar. Sendo o inverso verdadeiro, quanto menor o número de pessoas menor o número de votantes e joga a media do filme para baixo.
+Isso pode ser confirmado pela a arrecadação, ou seja, quanto maior a arrecadação maior o número de votos porque significa que teve uma maior exposição as grandes massas, seja através das mídias sociais ou televisivas e entre outras que podem acontecer a depender da epoca de lançamento do filme.
+Entretanto o que trouxe maior curiosidade foi que arrecadar mais não significa ter notas melhores e foi comprovado isso com a tabela 4, em que estatisticamente não há associação entre as variaveis citadas, ou seja, arrecadar bem não significa sucesso de um filme e isso pode prejudicar ou ser percebido na sequência de uma franquia.
+
 
 ##Referências
 
